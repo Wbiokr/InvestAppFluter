@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
-void main() => runApp(new MyApp());
+void main ()=>runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatelessWidget{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    // final wordPair=new WordPair.random();
     return new MaterialApp(
-      title: 'Welcome to Flutter',
+      title:'hello world !',
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('Welcome to Flutter'),
+          title: new Text('wbiokr'),
         ),
         body: new Center(
-          child: new Text('Hello是否是打发 World'),
+          child:  new RandomWords(),
+
         ),
+        
       ),
     );
+  } 
+}
+
+class RandomWords extends StatefulWidget{
+  @override
+  createState()=>new RandomWordsState();
+}
+
+class RandomWordsState extends State<RandomWords>{
+  @override
+  Widget build(BuildContext context){
+    final wordPair=new WordPair.random();
+
+    return new Text(wordPair.asPascalCase);
   }
 }
