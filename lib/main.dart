@@ -5,89 +5,113 @@ void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    // final wordPair=new WordPair.random();
-    return new MaterialApp(
-      title: 'hello world !',
-      home: new RandomWords(),
-      
 
+
+
+  Widget build(BuildContext context){
+    Widget titleSection = new Container(
+      padding: const EdgeInsets.all(32.0),
+      child: new Row(
+        children: [
+          new Expanded(
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                new Container(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: new Text(
+                    'Oeschinen Lake Campground',
+                    style: new TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                new Text(
+                  'Kandersteg, Switzerland',
+                  style: new TextStyle(
+                    color: Colors.grey[500]
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new Icon(
+            Icons.star,
+            color: Colors.red,
+          ),
+          new Text(
+            '411'
+          ),
+        ],
+      ),
     );
+
+    Column buildButtonColumn(IconData icon,String label){
+      Color color=Theme.of(context).primaryColor;
+
+      return new Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          new Icon(icon,color: color,),
+          new Container(
+            margin: const EdgeInsets.only(top: 8.0),
+            child: new Text(
+              label,
+              style: new TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget buttonSection=new Container(
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          buildButtonColumn(Icons.call,'call'),
+          buildButtonColumn(Icons.near_me,'route'),
+          buildButtonColumn(Icons.share,'share'),
+        ],
+      ),
+    );
+
+    Widget textSection = new Container(
+      padding: const EdgeInsets.all(32.0),
+      child: new Text(
+        'Oeschinen lies at the foot of the Blüemlisalp in the Bernese AlpOeschinen lies at the foot of the Blüemlisalp in the Bernese AlpOeschinen lies at the foot of the Blüemlisalp in the Bernese AlpOeschinen lies at the foot of the Blüemlisalp in the Bernese Alp',
+        softWrap: true,
+      ),
+    );
+
+    
+
+    
+    return MaterialApp(
+      title: 'layout demo',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Lake demo'),
+        ),
+        body: ListView(
+          children: [
+            Image.asset(
+              'images/lake.jpg',
+              width: 600.0,
+              height: 240.0,
+              fit: BoxFit.cover,
+            ),
+            titleSection,
+            buttonSection,
+            textSection,
+          ],
+        ),
+      ),
+    );
+
+     
   }
 }
 
-class RandomWords extends StatefulWidget {
-  @override
-  createState() => new RandomWordsState();
-}
-
-// class RandomWordsState extends State<RandomWords>{
-//   @override
-//   Widget build(BuildContext context){
-//     final wordPair=new WordPair.random();
-
-//     return new Text(wordPair.asPascalCase);
-//   }
-// }
-
-class RandomWordsState extends State<RandomWords> {
-  @override
-  final _suggestions = <WordPair>[];
-
-  final _saved=new Set<WordPair>();
-
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  Widget _buildSuggestions() {
-    return new ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: (context, i) {
-        if (i.isOdd) return new Divider();
-
-        final index = i ~/ 2;
-
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10));
-        }
-        return _buildRow(_suggestions[index]);
-      },
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-
-    final alreadySaved=_saved.contains(pair);
-
-    return new ListTile(
-      title: new Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-      trailing: new Icon(
-        alreadySaved?Icons.favorite :Icons.favorite_border,
-        color: alreadySaved?Colors.red:Colors.grey,
-      ),
-      onTap: (){
-        setState(() {
-                  if(alreadySaved){
-                    _saved.remove(pair);
-                  }else{
-                    _saved.add(pair);
-                  }
-                });
-      },
-    );
-  }
-
-  Widget build(BuildContext context) {
-    // final wordPair=new WordPair.random();
-
-    // return new Text(wordPair.asPascalCase);
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('data'),
-      ),
-      body: _buildSuggestions(),
-    );
-  }
-}
